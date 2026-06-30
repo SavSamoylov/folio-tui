@@ -1,0 +1,23 @@
+{
+  "name": "folio-tui",
+  "version": "0.1.0",
+  "description": "Terminal writing environment for Folio",
+  "module": "src/index.tsx",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run src/index.tsx",
+    "start": "bun run src/index.tsx"
+  },
+  "dependencies": {
+    "@opentui/core": "latest",
+    "@opentui/react": "latest",
+    "react": "^19",
+    "react-dom": "^19",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "@types/uuid": "^9.0.0",
+    "bun-types": "latest"
+  }
+}
