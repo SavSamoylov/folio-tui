@@ -12,6 +12,8 @@ import {
   createScene,
   countWords,
 } from "./utils/fs";
+import { loadConfig } from "./utils/config";
+import { getTheme, type Theme } from "./theme";
 import type { Project, NavNode } from "./types";
 
 const SIDEBAR_WIDTH = 24;
@@ -26,6 +28,7 @@ export function App() {
   const [project, setProject] = useState<Project | null>(null);
   const [currentPath, setCurrentPath] = useState<string | null>(null);
 
+  const [theme, setTheme] = useState<Theme>(getTheme("default"));
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [selected, setSelected] = useState<NavNode>({
     type: "scene",
@@ -40,6 +43,7 @@ export function App() {
 
   useEffect(() => {
     listProjects().then(setProjects);
+    loadConfig().then((cfg) => setTheme(getTheme(cfg.theme)));
   }, []);
 
   async function handleSelectProject(path: string) {
@@ -139,6 +143,7 @@ export function App() {
         onCreate={handleCreateProject}
         width={termWidth}
         height={termHeight}
+        theme={theme}
       />
     );
   }
@@ -165,6 +170,7 @@ export function App() {
           onRenameChapter={handleRenameChapter}
           width={SIDEBAR_WIDTH}
           height={termHeight}
+          theme={theme}
         />
       )}
       <Editor
@@ -177,6 +183,7 @@ export function App() {
         sidebarVisible={sidebarVisible}
         width={editorWidth}
         height={termHeight}
+        theme={theme}
       />
     </box>
   );

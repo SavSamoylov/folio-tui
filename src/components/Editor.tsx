@@ -3,6 +3,8 @@ import { useKeyboard, useRenderer } from "@opentui/react";
 import { applyGain } from "@opentui/core";
 import { countWords } from "../utils/fs";
 
+import type { Theme } from "../theme";
+
 interface EditorProps {
   content: string;
   sceneTitle: string;
@@ -13,6 +15,7 @@ interface EditorProps {
   sidebarVisible: boolean;
   width: number;
   height: number;
+  theme: Theme;
 }
 
 export function Editor({
@@ -25,6 +28,7 @@ export function Editor({
   sidebarVisible,
   width,
   height,
+  theme,
 }: EditorProps) {
   const renderer = useRenderer();
   const [saved, setSaved] = useState(true);
@@ -151,9 +155,9 @@ export function Editor({
     }
   });
 
-  const mutedText = "#555555";
-  const activeText = "#F5F5F0";
-  const accentRed = "#E63946";
+  const mutedText = theme.textFaint;
+  const activeText = theme.text;
+  const accentRed = theme.accent;
 
   const editorPad = 4;
   const editorWidth = Math.min(width - editorPad * 2, 72);
@@ -164,9 +168,9 @@ export function Editor({
   const statusRight = `${wordCount} words   ${saveLabel}`;
 
   return (
-    <box width={width} height={height} bg="#0D0D0D" flexDirection="column">
+    <box width={width} height={height} backgroundColor={theme.bg} flexDirection="column">
       {/* Top bar */}
-      <box width={width} height={1} bg="#111111">
+      <box width={width} height={1} backgroundColor={theme.surface}>
         <text
           content={sidebarVisible ? "  FOLIO" : "  FOLIO"}
           fg={accentRed}
@@ -180,21 +184,21 @@ export function Editor({
         />
         <text
           content={typewriter ? `^B nav   ^S save   ^T typewriter ✦   ^/ help` : `^B nav   ^S save   ^T typewriter      ^/ help`}
-          fg={typewriter ? "#333333" : "#2A2A2A"}
+          fg={typewriter ? theme.overlay : theme.border}
           x={width - 42}
         />
       </box>
 
       {/* Divider */}
-      <box width={width} height={1} bg="#0D0D0D">
-        <text content={"─".repeat(width)} fg="#1A1A1A" />
+      <box width={width} height={1} backgroundColor={theme.bg}>
+        <text content={"─".repeat(width)} fg={theme.border} />
       </box>
 
       {/* Writing area */}
       <box
         width={width}
         height={height - 3}
-        bg="#0D0D0D"
+        backgroundColor={theme.bg}
         paddingTop={2}
       >
         <textarea
@@ -225,7 +229,7 @@ export function Editor({
       </box>
 
       {/* Status bar */}
-      <box width={width} height={1} bg="#111111">
+      <box width={width} height={1} backgroundColor={theme.surface}>
         <text
           content={`  ${statusRight}`}
           fg={mutedText}
@@ -237,9 +241,9 @@ export function Editor({
       {showHelp && (() => {
         const modalW = 38;
         const modalH = 15;
-        const border = "#2A2A2A";
-        const labelFg = "#888888";
-        const keyFg = "#AAAAAA";
+        const border = theme.overlay;
+        const labelFg = theme.textFaint;
+        const keyFg = theme.textMuted;
         const rows: { key: string; desc: string }[] = [
           { key: "^B",  desc: "Toggle sidebar"     },
           { key: "^S",  desc: "Save"                },
@@ -256,7 +260,7 @@ export function Editor({
             left={Math.floor((width - modalW) / 2)}
             width={modalW}
             height={modalH}
-            backgroundColor="#111111"
+            backgroundColor={theme.surface}
             flexDirection="column"
           >
             <text content="" height={1} />

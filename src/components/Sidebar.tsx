@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useKeyboard } from "@opentui/react";
 import type { Project, NavNode } from "../types";
+import type { Theme } from "../theme";
 
 interface SidebarProps {
   project: Project;
@@ -12,6 +13,7 @@ interface SidebarProps {
   onRenameChapter: (chapterIndex: number, title: string) => void;
   width: number;
   height: number;
+  theme: Theme;
 }
 
 export function Sidebar({
@@ -24,6 +26,7 @@ export function Sidebar({
   onRenameChapter,
   width,
   height,
+  theme,
 }: SidebarProps) {
   const [editingChapter, setEditingChapter] = useState<number | null>(null);
   const [editTitle, setEditTitle] = useState("");
@@ -109,11 +112,11 @@ export function Sidebar({
     }
   });
 
-  const borderColor = "#222222";
-  const accentRed = "#E63946";
-  const mutedText = "#999999";
-  const activeText = "#F5F5F0";
-  const addFg = "#666666";
+  const borderColor = theme.overlay;
+  const accentRed = theme.accent;
+  const mutedText = theme.textMuted;
+  const activeText = theme.text;
+  const addFg = theme.textFaint;
 
   const rows: any[] = [];
 
@@ -143,7 +146,7 @@ export function Sidebar({
         key={`ch-${ci}`}
         width={width}
         height={1}
-        backgroundColor={isChapterSelected ? "#141414" : undefined}
+        backgroundColor={isChapterSelected ? theme.selection : undefined}
         onMouseDown={() => {
           if (isChapterSelected && !isEditing) {
             startEdit(ci);
@@ -183,7 +186,7 @@ export function Sidebar({
           key={`sc-${ci}-${si}`}
           width={width}
           height={1}
-          backgroundColor={isSceneSelected ? "#141414" : undefined}
+          backgroundColor={isSceneSelected ? theme.selection : undefined}
           onMouseDown={() => onSelect(sceneItem)}
         >
           <text
@@ -202,7 +205,7 @@ export function Sidebar({
         key={`note-${ci}`}
         width={width}
         height={1}
-        backgroundColor={isNoteSelected ? "#141414" : undefined}
+        backgroundColor={isNoteSelected ? theme.selection : undefined}
         onMouseDown={() => onSelect(noteItem)}
       >
         <text
@@ -244,7 +247,7 @@ export function Sidebar({
         marginLeft={2}
         paddingLeft={1}
         paddingRight={1}
-        backgroundColor="#222222"
+        backgroundColor={theme.overlay}
         focusable={false}
         onMouseDown={handleAddClick}
       >
