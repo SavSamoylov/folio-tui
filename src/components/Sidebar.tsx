@@ -251,13 +251,13 @@ export function Sidebar({
         focusable={false}
         onMouseDown={handleAddClick}
       >
-        <text content="(+) New chapter" fg={addFg} selectable={false} />
+        <text content="(+) New chapter" fg={theme.textMuted} selectable={false} />
       </box>
     </box>
   );
 
   return (
-    <box width={width} height={height} flexDirection="column">
+    <box width={width} height={height} flexDirection="column" backgroundColor={theme.bg}>
       {rows}
     </box>
   );
